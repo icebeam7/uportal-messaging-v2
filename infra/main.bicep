@@ -118,9 +118,10 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
         targetPort: 8080
         transport: 'auto'
         corsPolicy: {
-          allowedOrigins: ['*']
+          allowedOrigins: ['https://*.azurewebsites.net', 'https://*.azurecontainerapps.io']
           allowedMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
           allowedHeaders: ['*']
+          allowCredentials: false
         }
       }
       registries: [
@@ -134,6 +135,8 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
       containers: [
         {
           name: 'uportal-messaging'
+          // Placeholder image - will be replaced by azd with actual application image
+          // from Azure Container Registry during deployment
           image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
           resources: {
             cpu: json('0.5')
