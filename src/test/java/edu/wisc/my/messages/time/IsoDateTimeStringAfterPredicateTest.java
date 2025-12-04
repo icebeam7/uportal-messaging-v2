@@ -1,10 +1,11 @@
 package edu.wisc.my.messages.time;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class IsoDateTimeStringAfterPredicateTest {
 
@@ -38,9 +39,10 @@ public class IsoDateTimeStringAfterPredicateTest {
   /**
    * Test that input that cannot be parsed results in RuntimeException.
    */
-  @Test(expected = RuntimeException.class)
+  @Test
   public void garbageThrows() {
-    afterNow.test("Garbage");
+    assertThrows(RuntimeException.class, () ->
+      afterNow.test("Garbage"));
   }
 
   @Test

@@ -1,20 +1,22 @@
 package edu.wisc.my.messages.service;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.wisc.my.messages.model.Message;
 import edu.wisc.my.messages.model.MessageFilter;
 import java.time.LocalDateTime;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ExpiredMessagePredicateTest {
 
   ExpiredMessagePredicate predicate = new ExpiredMessagePredicate(LocalDateTime.now());
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void throwsOnNull() {
-    predicate.test(null);
+    assertThrows(RuntimeException.class, () ->
+      predicate.test(null));
   }
 
   @Test

@@ -7,7 +7,7 @@ import edu.wisc.my.messages.service.GoneLiveMessagePredicate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.function.Predicate;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,19 +1,22 @@
 package edu.wisc.my.messages.service;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.wisc.my.messages.model.Message;
 import edu.wisc.my.messages.model.MessageFilter;
 import java.time.LocalDateTime;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class GoneLiveMessagePredicateTest {
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void throwsOnNullMessage() {
-    GoneLiveMessagePredicate predicate = new GoneLiveMessagePredicate(LocalDateTime.now());
-    predicate.test(null);
+    assertThrows(RuntimeException.class, () -> {
+      GoneLiveMessagePredicate predicate = new GoneLiveMessagePredicate(LocalDateTime.now());
+      predicate.test(null);
+    });
   }
 
   @Test

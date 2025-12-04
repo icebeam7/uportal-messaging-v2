@@ -1,13 +1,17 @@
 package edu.wisc.my.messages.model;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 public class UserTest {
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void cannotSetGroupsToNull() {
-    User user = new User();
-    user.setGroups(null);
+    assertThrows(NullPointerException.class, () -> {
+      User user = new User();
+      user.setGroups(null);
+    });
   }
 
 }
