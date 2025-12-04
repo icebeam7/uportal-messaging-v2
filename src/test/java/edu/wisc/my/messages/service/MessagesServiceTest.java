@@ -72,7 +72,7 @@ public class MessagesServiceTest {
 
     assertEquals(2, result.size());
 
-    Message firstResultMessage = result.getFirst();
+    Message firstResultMessage = result.get(0);
     assertEquals("uniqueMessageId-1", firstResultMessage.getId());
 
     Message secondResultMessage = result.get(1);
@@ -115,7 +115,7 @@ public class MessagesServiceTest {
 
     assertEquals(1, result.size());
 
-    Message resultMessage = result.getFirst();
+    Message resultMessage = result.get(0);
 
     assertEquals("uniqueMessageId", resultMessage.getId());
   }

@@ -73,7 +73,7 @@ public class MessagesService {
       logger.debug("Found no message for id [{}]", idToMatch);
       return null;
     } else if (matchingMessages.size() == 1) {
-      Message foundMessage = matchingMessages.getFirst();
+      Message foundMessage = matchingMessages.get(0);
       logger.trace("Found message [{}].", foundMessage);
       return foundMessage;
     } else {
