@@ -77,7 +77,7 @@ public class MessagesControllerUnitTest {
     groups.add("someGroup");
     groups.add("someOtherGroup");
     groups.add("yetAnotherGroup");
-    when(mockParser.groupsFromHeaderValue(anyString())).thenReturn(groups);
+    when(mockParser.groupsFromHeaderValue(any())).thenReturn(groups);
 
     controller.messages(mockRequest);
 
