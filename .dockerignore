@@ -1,0 +1,27 @@
+# Git
+.git
+.gitignore
+.github
+
+# Documentation
+*.md
+docs/
+
+# IDE
+.vscode
+.idea
+*.iml
+
+# Build artifacts
+target/
+*.war.original
+
+# CI/CD
+.travis.yml
+.azure/
+
+# Test files
+src/test/
+
+# Maven wrapper
+.mvn/wrapper/maven-wrapper.jar
