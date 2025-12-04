@@ -4,17 +4,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import edu.wisc.my.messages.data.MessagesFromTextFile;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class MessagesControllerTest {
@@ -50,39 +47,41 @@ public class MessagesControllerTest {
    */
   @Test
   public void adminMessageById() throws Exception {
-    String expectedJson = "{\n"
-      + "  \"id\": \"demo-high-priority-valid-group-no-date\",\n"
-      + "  \"title\": \"Valid group. No date. High priority.\",\n"
-      + "  \"titleShort\": \"Valid group. No date. High priority.\",\n"
-      + "  \"titleUrl\": null,\n"
-      + "  \"description\": \"Valid group. No date. High priority.\",\n"
-      + "  \"descriptionShort\": \"Valid group. No date. High priority.\",\n"
-      + "  \"messageType\": \"notification\",\n"
-      + "  \"featureImageUrl\": null,\n"
-      + "  \"priority\": \"high\",\n"
-      + "  \"recurrence\": null,\n"
-      + "  \"dismissible\": null,\n"
-      + "  \"filter\": {\n"
-      + "    \"goLiveDate\": null,\n"
-      + "    \"expireDate\": null,\n"
-      + "    \"groups\": [\n"
-      + "      \"Portal Administrators\"\n"
-      + "    ]\n"
-      + "  },\n"
-      + "  \"data\": {\n"
-      + "    \"dataUrl\": null,\n"
-      + "    \"dataObject\": null,\n"
-      + "    \"dataArrayFilter\": null,\n"
-      + "    \"dataMessageTitle\": null,\n"
-      + "    \"dataMessageMoreInfoUrl\": null\n"
-      + "  },\n"
-      + "  \"actionButton\": {\n"
-      + "    \"label\": \"Go\",\n"
-      + "    \"url\": \"http://www.google.com\"\n"
-      + "  },\n"
-      + "  \"moreInfoButton\": null,\n"
-      + "  \"confirmButton\": null\n"
-      + "}";
+    String expectedJson = """
+      {
+        "id": "demo-high-priority-valid-group-no-date",
+        "title": "Valid group. No date. High priority.",
+        "titleShort": "Valid group. No date. High priority.",
+        "titleUrl": null,
+        "description": "Valid group. No date. High priority.",
+        "descriptionShort": "Valid group. No date. High priority.",
+        "messageType": "notification",
+        "featureImageUrl": null,
+        "priority": "high",
+        "recurrence": null,
+        "dismissible": null,
+        "filter": {
+          "goLiveDate": null,
+          "expireDate": null,
+          "groups": [
+            "Portal Administrators"
+          ]
+        },
+        "data": {
+          "dataUrl": null,
+          "dataObject": null,
+          "dataArrayFilter": null,
+          "dataMessageTitle": null,
+          "dataMessageMoreInfoUrl": null
+        },
+        "actionButton": {
+          "label": "Go",
+          "url": "http://www.google.com"
+        },
+        "moreInfoButton": null,
+        "confirmButton": null
+      }\
+      """;
 
     mvc.perform(MockMvcRequestBuilders.get("/admin/message/demo-high-priority-valid-group-no-date")
       .accept(MediaType.APPLICATION_JSON))
@@ -108,36 +107,38 @@ public class MessagesControllerTest {
    */
   @Test
   public void messageById() throws Exception {
-    String expectedJson = "{\n"
-      + "  \"id\": \"has-no-audience-filter\",\n"
-      + "  \"title\": \"An announcement lacking an audience filter.\",\n"
-      + "  \"titleShort\": \"Not filtered by audience\",\n"
-      + "  \"titleUrl\": null,\n"
-      + "  \"description\": \"This announcement is not filtered by groups.\",\n"
-      + "  \"descriptionShort\": \"Not filtered by groups.\",\n"
-      + "  \"messageType\": \"announcement\",\n"
-      + "  \"featureImageUrl\": null,\n"
-      + "  \"priority\": null,\n"
-      + "  \"recurrence\": null,\n"
-      + "  \"dismissible\": null,\n"
-      + "  \"filter\": null,\n"
-      + "  \"data\": {\n"
-      + "    \"dataUrl\": null,\n"
-      + "    \"dataObject\": null,\n"
-      + "    \"dataArrayFilter\": null,\n"
-      + "    \"dataMessageTitle\": null,\n"
-      + "    \"dataMessageMoreInfoUrl\": null\n"
-      + "  },\n"
-      + "  \"actionButton\": {\n"
-      + "    \"label\": \"Add to home\",\n"
-      + "    \"url\": \"addToHome/open-apereo\"\n"
-      + "  },\n"
-      + "  \"moreInfoButton\": {\n"
-      + "    \"label\": \"More info\",\n"
-      + "    \"url\": \"https://www.apereo.org/content/2018-open-apereo-montreal-quebec\"\n"
-      + "  },\n"
-      + "  \"confirmButton\": null\n"
-      + "}";
+    String expectedJson = """
+      {
+        "id": "has-no-audience-filter",
+        "title": "An announcement lacking an audience filter.",
+        "titleShort": "Not filtered by audience",
+        "titleUrl": null,
+        "description": "This announcement is not filtered by groups.",
+        "descriptionShort": "Not filtered by groups.",
+        "messageType": "announcement",
+        "featureImageUrl": null,
+        "priority": null,
+        "recurrence": null,
+        "dismissible": null,
+        "filter": null,
+        "data": {
+          "dataUrl": null,
+          "dataObject": null,
+          "dataArrayFilter": null,
+          "dataMessageTitle": null,
+          "dataMessageMoreInfoUrl": null
+        },
+        "actionButton": {
+          "label": "Add to home",
+          "url": "addToHome/open-apereo"
+        },
+        "moreInfoButton": {
+          "label": "More info",
+          "url": "https://www.apereo.org/content/2018-open-apereo-montreal-quebec"
+        },
+        "confirmButton": null
+      }\
+      """;
 
     mvc.perform(MockMvcRequestBuilders.get("/message/has-no-audience-filter")
       .accept(MediaType.APPLICATION_JSON))

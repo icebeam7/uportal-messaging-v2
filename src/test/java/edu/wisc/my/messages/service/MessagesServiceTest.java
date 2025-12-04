@@ -1,10 +1,11 @@
 package edu.wisc.my.messages.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -18,7 +19,7 @@ import edu.wisc.my.messages.model.MessageFilter;
 import edu.wisc.my.messages.model.User;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
@@ -71,7 +72,7 @@ public class MessagesServiceTest {
 
     assertEquals(2, result.size());
 
-    Message firstResultMessage = result.get(0);
+    Message firstResultMessage = result.getFirst();
     assertEquals("uniqueMessageId-1", firstResultMessage.getId());
 
     Message secondResultMessage = result.get(1);
@@ -114,7 +115,7 @@ public class MessagesServiceTest {
 
     assertEquals(1, result.size());
 
-    Message resultMessage = result.get(0);
+    Message resultMessage = result.getFirst();
 
     assertEquals("uniqueMessageId", resultMessage.getId());
   }
@@ -239,32 +240,36 @@ public class MessagesServiceTest {
     assertNull(result);
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void throwsIllegalStateExceptionWhenMultipleMessagesMatchId() {
-    MessagesService service = new MessagesService();
+    assertThrows(IllegalStateException.class, () -> {
+      MessagesService service = new MessagesService();
 
-    Message firstMessage = new Message();
-    firstMessage.setId("not-so-unique-id");
+      Message firstMessage = new Message();
+      firstMessage.setId("not-so-unique-id");
 
-    Message secondMessage = new Message();
-    secondMessage.setId("not-so-unique-id");
+      Message secondMessage = new Message();
+      secondMessage.setId("not-so-unique-id");
 
-    List<Message> messagesFromRepository = new ArrayList<>();
-    messagesFromRepository.add(firstMessage);
-    messagesFromRepository.add(secondMessage);
+      List<Message> messagesFromRepository = new ArrayList<>();
+      messagesFromRepository.add(firstMessage);
+      messagesFromRepository.add(secondMessage);
 
-    MessagesFromTextFile messageSource = mock(MessagesFromTextFile.class);
-    when(messageSource.allMessages()).thenReturn(messagesFromRepository);
+      MessagesFromTextFile messageSource = mock(MessagesFromTextFile.class);
+      when(messageSource.allMessages()).thenReturn(messagesFromRepository);
 
-    service.setMessageSource(messageSource);
+      service.setMessageSource(messageSource);
 
-    Message result = service.messageById("not-so-unique-id");
+      Message result = service.messageById("not-so-unique-id");
+    });
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test
   public void requestingMessageWithNullIdThrowsNPE() {
-    MessagesService service = new MessagesService();
-    service.messageById(null);
+    assertThrows(NullPointerException.class, () -> {
+      MessagesService service = new MessagesService();
+      service.messageById(null);
+    });
   }
 
 
@@ -313,78 +318,81 @@ public class MessagesServiceTest {
     assertEquals(matchingMessage, result);
   }
 
-  @Test(expected = ExpiredMessageException.class)
-  public void userInAudienceCannotReadExpiredMessage()
-    throws ForbiddenMessageException {
-    MessagesService service = new MessagesService();
+  @Test
+  public void userInAudienceCannotReadExpiredMessage() {
+    assertThrows(ExpiredMessageException.class, () -> {
+      MessagesService service = new MessagesService();
 
-    MessageFilter yesFilter = mock(MessageFilter.class);
-    when(yesFilter.test(any())).thenReturn(true);
-    when(yesFilter.getExpireDate()).thenReturn("2001-01-01");
-    Message matchingMessage = new Message();
-    matchingMessage.setFilter(yesFilter);
-    matchingMessage.setId("in-audience-of-this-expired-message");
+      MessageFilter yesFilter = mock(MessageFilter.class);
+      when(yesFilter.test(any())).thenReturn(true);
+      when(yesFilter.getExpireDate()).thenReturn("2001-01-01");
+      Message matchingMessage = new Message();
+      matchingMessage.setFilter(yesFilter);
+      matchingMessage.setId("in-audience-of-this-expired-message");
 
-    List<Message> unfilteredMessages = new ArrayList<>();
-    unfilteredMessages.add(matchingMessage);
+      List<Message> unfilteredMessages = new ArrayList<>();
+      unfilteredMessages.add(matchingMessage);
 
-    MessagesFromTextFile messageSource = mock(MessagesFromTextFile.class);
-    when(messageSource.allMessages()).thenReturn(unfilteredMessages);
+      MessagesFromTextFile messageSource = mock(MessagesFromTextFile.class);
+      when(messageSource.allMessages()).thenReturn(unfilteredMessages);
 
-    service.setMessageSource(messageSource);
+      service.setMessageSource(messageSource);
 
-    User user = new User();
+      User user = new User();
 
-    Message result = service.messageByIdForUser("in-audience-of-this-expired-message", user);
+      Message result = service.messageByIdForUser("in-audience-of-this-expired-message", user);
+    });
   }
 
-  @Test(expected = PrematureMessageException.class)
-  public void userInAudienceCannotReadPrematureMessage()
-    throws ForbiddenMessageException {
-    MessagesService service = new MessagesService();
+  @Test
+  public void userInAudienceCannotReadPrematureMessage() {
+    assertThrows(PrematureMessageException.class, () -> {
+      MessagesService service = new MessagesService();
 
-    MessageFilter yesFilter = mock(MessageFilter.class);
-    when(yesFilter.test(any())).thenReturn(true);
-    when(yesFilter.getGoLiveDate()).thenReturn("2999-01-01");
-    Message matchingMessage = new Message();
-    matchingMessage.setFilter(yesFilter);
-    matchingMessage.setId("yes-in-audience-of-this-message");
+      MessageFilter yesFilter = mock(MessageFilter.class);
+      when(yesFilter.test(any())).thenReturn(true);
+      when(yesFilter.getGoLiveDate()).thenReturn("2999-01-01");
+      Message matchingMessage = new Message();
+      matchingMessage.setFilter(yesFilter);
+      matchingMessage.setId("yes-in-audience-of-this-message");
 
-    List<Message> unfilteredMessages = new ArrayList<>();
-    unfilteredMessages.add(matchingMessage);
+      List<Message> unfilteredMessages = new ArrayList<>();
+      unfilteredMessages.add(matchingMessage);
 
-    MessagesFromTextFile messageSource = mock(MessagesFromTextFile.class);
-    when(messageSource.allMessages()).thenReturn(unfilteredMessages);
+      MessagesFromTextFile messageSource = mock(MessagesFromTextFile.class);
+      when(messageSource.allMessages()).thenReturn(unfilteredMessages);
 
-    service.setMessageSource(messageSource);
+      service.setMessageSource(messageSource);
 
-    User user = new User();
+      User user = new User();
 
-    Message result = service.messageByIdForUser("yes-in-audience-of-this-message", user);
+      Message result = service.messageByIdForUser("yes-in-audience-of-this-message", user);
+    });
   }
 
-  @Test(expected = UserNotInMessageAudienceException.class)
-  public void userNotInAudienceCannotReadMessage()
-    throws ForbiddenMessageException {
-    MessagesService service = new MessagesService();
+  @Test
+  public void userNotInAudienceCannotReadMessage() {
+    assertThrows(UserNotInMessageAudienceException.class, () -> {
+      MessagesService service = new MessagesService();
 
-    MessageFilter noFilter = mock(MessageFilter.class);
-    when(noFilter.test(any())).thenReturn(false);
-    Message matchingMessage = new Message();
-    matchingMessage.setFilter(noFilter);
-    matchingMessage.setId("not-in-audience-of-this-message");
+      MessageFilter noFilter = mock(MessageFilter.class);
+      when(noFilter.test(any())).thenReturn(false);
+      Message matchingMessage = new Message();
+      matchingMessage.setFilter(noFilter);
+      matchingMessage.setId("not-in-audience-of-this-message");
 
-    List<Message> unfilteredMessages = new ArrayList<>();
-    unfilteredMessages.add(matchingMessage);
+      List<Message> unfilteredMessages = new ArrayList<>();
+      unfilteredMessages.add(matchingMessage);
 
-    MessagesFromTextFile messageSource = mock(MessagesFromTextFile.class);
-    when(messageSource.allMessages()).thenReturn(unfilteredMessages);
+      MessagesFromTextFile messageSource = mock(MessagesFromTextFile.class);
+      when(messageSource.allMessages()).thenReturn(unfilteredMessages);
 
-    service.setMessageSource(messageSource);
+      service.setMessageSource(messageSource);
 
-    User user = new User();
+      User user = new User();
 
-    Message result = service.messageByIdForUser("not-in-audience-of-this-message", user);
+      Message result = service.messageByIdForUser("not-in-audience-of-this-message", user);
+    });
   }
 
 }
