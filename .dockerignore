@@ -12,8 +12,9 @@ docs/
 .idea
 *.iml
 
-# Build artifacts
-target/
+# Build artifacts (keep WAR for Docker build)
+target/*
+!target/*.war
 *.war.original
 
 # CI/CD
@@ -25,3 +26,6 @@ src/test/
 
 # Maven wrapper
 .mvn/wrapper/maven-wrapper.jar
+
+# Maven settings
+maven-settings.xml
