@@ -36,3 +36,9 @@ src/main/.DS_Store
 hs_err_pid*
 
 build/
+
+# Azure
+.azure/*.env
+.azure/.env
+.azure/**/config.json
+

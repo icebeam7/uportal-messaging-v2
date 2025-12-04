@@ -1,0 +1,31 @@
+# Git
+.git
+.gitignore
+.github
+
+# Documentation
+*.md
+docs/
+
+# IDE
+.vscode
+.idea
+*.iml
+
+# Build artifacts (keep WAR for Docker build)
+target/*
+!target/*.war
+*.war.original
+
+# CI/CD
+.travis.yml
+.azure/
+
+# Test files
+src/test/
+
+# Maven wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# Maven settings
+maven-settings.xml
